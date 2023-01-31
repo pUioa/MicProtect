@@ -7,7 +7,7 @@
 HANDLE h_ProcessCallBack = NULL;
 BOOL DoProtect = FALSE;
 DWORD beProtectProcessId = 0;
-
+//Fuck Axing
 
 typedef struct _LDR_DATA                         // 24 elements, 0xE0 bytes (sizeof)
 {
