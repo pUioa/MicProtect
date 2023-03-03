@@ -7,8 +7,7 @@
 HANDLE h_ProcessCallBack = NULL;
 BOOL DoProtect = FALSE;
 DWORD beProtectProcessId = 0;
-//Fuck Axing
-//ÔÙ´Î²âÊÔÌá½»
+//å†æ¬¡æµ‹è¯•æäº¤
 
 typedef struct _LDR_DATA                         // 24 elements, 0xE0 bytes (sizeof)
 {
@@ -115,13 +114,13 @@ NTSTATUS DispatchIoControl(PDEVICE_OBJECT pDevObj, PIRP pIrp)
 	ULONG uOutSize;
 	//DbgPrint("[Microcosm Protect]DispatchIoctl\n");
 	pIrpStack = IoGetCurrentIrpStackLocation(pIrp);
-	//¿ØÖÆÂë
+	//æ§åˆ¶ç 
 	uIoControlCode = pIrpStack->Parameters.DeviceIoControl.IoControlCode;
-	//ÊäÈëÊä³ö»º³åÇø
+	//è¾“å…¥è¾“å‡ºç¼“å†²åŒº
 	pIoBuffer = pIrp->AssociatedIrp.SystemBuffer;
-	//ÊäÈëÇøÓò´óĞ¡
+	//è¾“å…¥åŒºåŸŸå¤§å°
 	uInSize = pIrpStack->Parameters.DeviceIoControl.InputBufferLength;
-	//Êä³öÇøÓò´óĞ¡
+	//è¾“å‡ºåŒºåŸŸå¤§å°
 	uOutSize = pIrpStack->Parameters.DeviceIoControl.OutputBufferLength;
 	switch (uIoControlCode)
 	{
@@ -163,13 +162,13 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObj, PUNICODE_STRING pRegistryString)
 	UNICODE_STRING ustrLinkName;
 	UNICODE_STRING ustrDevName;
 	PDEVICE_OBJECT pDevObj;
-	//³õÊ¼»¯Çı¶¯Àı³Ì
+	//åˆå§‹åŒ–é©±åŠ¨ä¾‹ç¨‹
 	pDriverObj->MajorFunction[IRP_MJ_CREATE] = DispatchCreate;
 	pDriverObj->MajorFunction[IRP_MJ_CLOSE] = DispatchClose;
 	pDriverObj->MajorFunction[IRP_MJ_DEVICE_CONTROL] = DispatchIoControl;
 	pDriverObj->DriverUnload = DriverUnload;
 
-	// ´´½¨Çı¶¯Éè±¸
+	// åˆ›å»ºé©±åŠ¨è®¾å¤‡
 	RtlInitUnicodeString(&ustrDevName, DEVICE_NAME);
 	status = IoCreateDevice(pDriverObj, NULL, &ustrDevName, FILE_DEVICE_UNKNOWN,NULL, FALSE, &pDevObj);
 	if (!NT_SUCCESS(status)) return status;
@@ -177,7 +176,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObj, PUNICODE_STRING pRegistryString)
 		RtlInitUnicodeString(&ustrLinkName, LINK_GLOBAL_NAME);
 	else
 		RtlInitUnicodeString(&ustrLinkName, LINK_NAME);
-	//´´½¨·ûºÅÁ´½Ó
+	//åˆ›å»ºç¬¦å·é“¾æ¥
 
 	status = IoCreateSymbolicLink(&ustrLinkName, &ustrDevName);
 
